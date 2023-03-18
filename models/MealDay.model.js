@@ -10,7 +10,9 @@ const mealDaySchema = new Schema({
     type: String,
     enum: ["Breakfast","Lunch","Dinner"]
   },
-  recipe: { type: Schema.Types.ObjectId, ref: "Recipe" }
+  recipe: { type: Schema.Types.ObjectId, ref: "Recipe" },
+
+  userId: { type: Schema.Types.ObjectId, ref: "User" }
 });
 
 module.exports = model("Mealday", mealDaySchema);
