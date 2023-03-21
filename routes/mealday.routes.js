@@ -6,9 +6,9 @@ const Recipe = require("../models/Recipe.model")
 
 
 router.post("/meals",(req, res, next)=>{
-    const {day, mealType} = req.body;
+    const {day, mealType, recipe} = req.body;
 
-    MealDay.create({day, mealType })
+    MealDay.create({day, mealType, recipe})
     .then ((response) => res.json(response))
     .catch((err)=> res.json(err));
 
@@ -16,6 +16,7 @@ router.post("/meals",(req, res, next)=>{
 
 router.get("/meals", (req,res, next)=>{
     MealDay.find()
+    .populate("recipe")
     .then((allMeals) => res.json(allMeals))
     .catch((err)=> res.json(err));
 })

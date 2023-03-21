@@ -3,13 +3,15 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const MealDay = require("../models/MealDay.model")
 const Recipe = require("../models/Recipe.model")
+const fileUploader = require('../config/cloudinary.config');
 
 
-router.post("/recipes",(req, res, next)=>{
-    const {name, image, instruction, ingredients, cookingTime} = req.body;
+router.post("/recipes", fileUploader.single('imageUrl'),(req, res, next)=>{
+    const {name, instruction, ingredients, cookingTime} = req.body;
 
-    Recipe.create({name, image, instruction, ingredients, cookingTime })
-    .then ((response) => res.json(response))
+    Recipe.create({name, imageUrl: req.file, instruction, ingredients, cookingTime })
+    .then ((response) =>{
+      res.json(response)})
     .catch((err)=> res.json(err));
 
 })
