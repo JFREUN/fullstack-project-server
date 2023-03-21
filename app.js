@@ -23,6 +23,7 @@ app.use("/auth", authRoutes);
 
 const recipeRoutes = require("./routes/recipe.routes");
 app.use("/api", recipeRoutes)
+
 const mealdayRoutes = require("./routes/mealday.routes");
 app.use("/api", mealdayRoutes)
 
