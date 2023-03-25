@@ -7,9 +7,9 @@ const fileUploader = require('../config/cloudinary.config');
 
 
 router.post("/recipes",(req, res, next)=>{
-    const {name, imageUrl, instruction, ingredients, cookingTime} = req.body;
+    const {name, imageUrl, instruction, ingredients, cookingTime, userId} = req.body;
 
-    Recipe.create({name,imageUrl, instruction, ingredients, cookingTime })
+    Recipe.create({name,imageUrl, instruction, ingredients, cookingTime, userId })
     .then ((response) =>{
       res.json(response)})
     .catch((err)=> res.json(err));
@@ -81,8 +81,8 @@ router.put("/recipes/:recipeId", (req, res, next) => {
       });
 
       router.get('/search', (req, res, next) => {
-        // Recipe.find({name:{$regex:/req.query.name/, $options:'i'}})
-        Recipe.find({name:req.query.name})
+        Recipe.find({name:{$regex: req.query.name}})
+        // Recipe.find({name:req.query.name})
         .then(response=>{
           res.json(response)
         })
