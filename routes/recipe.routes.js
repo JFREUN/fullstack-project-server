@@ -7,9 +7,9 @@ const fileUploader = require('../config/cloudinary.config');
 
 
 router.post("/recipes",(req, res, next)=>{
-    const {name, imageUrl, instruction, ingredients, cookingTime} = req.body;
+    const {name, imageUrl, instruction, ingredients, cookingTime, userId} = req.body;
 
-    Recipe.create({name,imageUrl, instruction, ingredients, cookingTime })
+    Recipe.create({name,imageUrl, instruction, ingredients, cookingTime, userId })
     .then ((response) =>{
       res.json(response)})
     .catch((err)=> res.json(err));

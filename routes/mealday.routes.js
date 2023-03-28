@@ -6,9 +6,9 @@ const Recipe = require("../models/Recipe.model")
 
 
 router.post("/meals",(req, res, next)=>{
-    const {day, mealType, recipe} = req.body;
+    const {day, breakfast, lunch, dinner, userId} = req.body;
 
-    MealDay.create({day, mealType, recipe})
+    MealDay.create({day, breakfast, lunch, dinner, userId})
     .then ((response) => res.json(response))
     .catch((err)=> res.json(err));
 
@@ -16,7 +16,7 @@ router.post("/meals",(req, res, next)=>{
 
 router.get("/meals", (req,res, next)=>{
     MealDay.find()
-    .populate("recipe")
+    .populate("breakfast lunch dinner")
     .then((allMeals) => res.json(allMeals))
     .catch((err)=> res.json(err));
 })
@@ -31,7 +31,7 @@ router.get("/meals/:mealId", (req, res, next) => {
 }
 
 MealDay.findById(mealId)
-    .populate('recipe')
+    .populate('breakfast lunch dinner')
     .then((recipe) => res.status(200).json(recipe))
     .catch((error) => res.json(error));
 });
