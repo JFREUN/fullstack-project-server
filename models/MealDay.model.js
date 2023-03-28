@@ -6,11 +6,9 @@ const mealDaySchema = new Schema({
     type: String,
     enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"],
   },
-  mealType: {
-    type: String,
-    enum: ["Breakfast","Lunch","Dinner"]
-  },
-  recipe: { type: Schema.Types.ObjectId, ref: "Recipe" },
+  breakfast:{ type: Schema.Types.ObjectId, ref: "Recipe" },
+  lunch: { type: Schema.Types.ObjectId, ref: "Recipe" }, 
+  dinner: { type: Schema.Types.ObjectId, ref: "Recipe" },
 
   userId: { type: Schema.Types.ObjectId, ref: "User" }
 });
