@@ -81,15 +81,14 @@ router.put("/recipes/:recipeId", (req, res, next) => {
       });
 
       router.get('/search', (req, res, next) => {
-        // Recipe.find({name:{$regex:/req.query.name/, $options:'i'}})
-        Recipe.find({name:req.query.name})
+        Recipe.find({name:{$regex: req.query.name}})
+        // Recipe.find({name:req.query.name})
         .then(response=>{
           res.json(response)
         })
 
         .catch((error) => res.json(error));
     })
-       
       
 
 module.exports = router;

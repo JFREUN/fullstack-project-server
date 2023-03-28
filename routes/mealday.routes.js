@@ -31,9 +31,12 @@ router.get("/meals/:mealId", (req, res, next) => {
 }
 
 MealDay.findById(mealId)
+    .populate('recipe')
     .then((recipe) => res.status(200).json(recipe))
     .catch((error) => res.json(error));
 });
+
+
 router.put("/meals/:mealId", (req, res, next) => {
     const { mealId } = req.params;
   
