@@ -80,9 +80,8 @@ router.put("/recipes/:recipeId", (req, res, next) => {
           .catch((error) => res.json(error));
       });
 
-      router.get('/search', (req, res, next) => {
+    router.get('/search', (req, res, next) => {
         Recipe.find({name:{$regex: req.query.name}})
-        // Recipe.find({name:req.query.name})
         .then(response=>{
           res.json(response)
         })
