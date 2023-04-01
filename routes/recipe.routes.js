@@ -60,40 +60,43 @@ router.get("/recipes/:recipeId", (req, res, next) => {
     .catch((error) => res.json(error));
 });
 router.put("/recipes/:recipeId", (req, res, next) => {
-  const { recipeId } = req.params;
+    const { recipeId } = req.params;
+  
+    if (!mongoose.Types.ObjectId.isValid(recipeId)) {
+      res.status(400).json({ message: "Specified id is not valid" });
+      return;
+    }
+  
+    Recipe.findByIdAndUpdate(recipeId, req.body, { new: true })
+      .then((updatedRecipe) => res.json(updatedRecipe))
+      .catch((error) => res.json(error));
 
-  if (!mongoose.Types.ObjectId.isValid(recipeId)) {
-    res.status(400).json({ message: "Specified id is not valid" });
-    return;
-  }
+    });
 
-  Recipe.findByIdAndUpdate(recipeId, req.body, { new: true })
-    .then((updatedRecipe) => res.json(updatedRecipe))
-    .catch((error) => res.json(error));
-});
+    router.delete("/recipes/:recipeId", (req, res, next) => {
+        const { recipeId } = req.params;
+      
+        if (!mongoose.Types.ObjectId.isValid(recipeId)) {
+          res.status(400).json({ message: "Specified id is not valid" });
+          return;
+        }
+      
+        Recipe.findByIdAndRemove(recipeId)
+          .then(() =>
+            res.json({
+              message: `Recipe with ${recipeId} is removed successfully.`,
+            })
+          )
+          .catch((error) => res.json(error));
+      });
 
-router.delete("/recipes/:recipeId", (req, res, next) => {
-  const { recipeId } = req.params;
+    router.get('/search', (req, res, next) => {
+        Recipe.find({name:{$regex: req.query.name}})
+        .then(response=>{
+          res.json(response)
+        })
 
-  if (!mongoose.Types.ObjectId.isValid(recipeId)) {
-    res.status(400).json({ message: "Specified id is not valid" });
-    return;
-  }
-
-  Recipe.findByIdAndRemove(recipeId)
-    .then(() =>
-      res.json({
-        message: `Recipe with ${recipeId} is removed successfully.`,
-      })
-    )
-    .catch((error) => res.json(error));
-});
-
-router.get("/search", (req, res, next) => {
-  Recipe.find({ name: { $regex: req.query.name } })
-    // Recipe.find({name:req.query.name})
-    .then((response) => {
-      res.json(response);
+        .catch((error) => res.json(error));
     })
 
     .catch((error) => res.json(error));
