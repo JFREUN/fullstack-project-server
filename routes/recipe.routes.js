@@ -99,7 +99,5 @@ router.put("/recipes/:recipeId", (req, res, next) => {
         .catch((error) => res.json(error));
     })
 
-    .catch((error) => res.json(error));
-});
 
 module.exports = router;
