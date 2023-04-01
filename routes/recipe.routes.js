@@ -6,8 +6,9 @@ const Recipe = require("../models/Recipe.model");
 const fileUploader = require("../config/cloudinary.config");
 
 router.post("/recipes", (req, res, next) => {
-  const { name, imageUrl, instruction, ingredients, cookingTime, userId } =
+  const { name, imageUrl, instruction, ingredients, cookingTime, userId} =
     req.body;
+    
 
   Recipe.create({
     name,
