@@ -93,7 +93,5 @@ router.get("/search", (req, res, next) => {
       res.json(response);
     })
 
-    .catch((error) => res.json(error));
-});
 
 module.exports = router;
