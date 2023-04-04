@@ -27,6 +27,7 @@ router.post("/recipes", (req, res, next) => {
 router.get("/recipes", (req, res, next) => {
   const userId = req.payload._id;
   Recipe.find({ userId })
+    .populate('ingredients')
     .then((allRecipes) => res.json(allRecipes))
     .catch((err) => res.json(err));
 });
@@ -54,6 +55,7 @@ router.get("/recipes/:recipeId", (req, res, next) => {
   }
 
   Recipe.findById(recipeId)
+    .populate('ingredients')
     .then((recipe) => res.status(200).json(recipe))
     .catch((error) => res.json(error));
 });
