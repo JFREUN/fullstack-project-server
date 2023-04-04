@@ -4,11 +4,11 @@ const mongoose = require("mongoose");
 const MealDay = require("../models/MealDay.model");
 const Recipe = require("../models/Recipe.model");
 const fileUploader = require("../config/cloudinary.config");
+const ingredients = require("../models/Ingredient.model");
 
 router.post("/recipes", (req, res, next) => {
-  const { name, imageUrl, instruction, ingredients, cookingTime, userId} =
+  const { name, imageUrl, instruction, ingredients, cookingTime, userId } =
     req.body;
-    
 
   Recipe.create({
     name,
@@ -26,7 +26,7 @@ router.post("/recipes", (req, res, next) => {
 
 router.get("/recipes", (req, res, next) => {
   const userId = req.payload._id;
-  Recipe.find({userId})
+  Recipe.find({ userId })
     .then((allRecipes) => res.json(allRecipes))
     .catch((err) => res.json(err));
 });
@@ -45,8 +45,6 @@ router.post("/upload", fileUploader.single("imageUrl"), (req, res, next) => {
   res.json({ fileUrl: req.file.path });
 });
 
-
-
 router.get("/recipes/:recipeId", (req, res, next) => {
   const { recipeId } = req.params;
 
@@ -60,43 +58,39 @@ router.get("/recipes/:recipeId", (req, res, next) => {
     .catch((error) => res.json(error));
 });
 router.put("/recipes/:recipeId", (req, res, next) => {
-    const { recipeId } = req.params;
-  
-    if (!mongoose.Types.ObjectId.isValid(recipeId)) {
-      res.status(400).json({ message: "Specified id is not valid" });
-      return;
-    }
-  
-    Recipe.findByIdAndUpdate(recipeId, req.body, { new: true })
-      .then((updatedRecipe) => res.json(updatedRecipe))
-      .catch((error) => res.json(error));
+  const { recipeId } = req.params;
 
-    });
+  if (!mongoose.Types.ObjectId.isValid(recipeId)) {
+    res.status(400).json({ message: "Specified id is not valid" });
+    return;
+  }
 
-    router.delete("/recipes/:recipeId", (req, res, next) => {
-        const { recipeId } = req.params;
-      
-        if (!mongoose.Types.ObjectId.isValid(recipeId)) {
-          res.status(400).json({ message: "Specified id is not valid" });
-          return;
-        }
-      
-        Recipe.findByIdAndRemove(recipeId)
-          .then(() =>
-            res.json({
-              message: `Recipe with ${recipeId} is removed successfully.`,
-            })
-          )
-          .catch((error) => res.json(error));
-      });
+  Recipe.findByIdAndUpdate(recipeId, req.body, { new: true })
+    .then((updatedRecipe) => res.json(updatedRecipe))
+    .catch((error) => res.json(error));
+});
 
-    router.get('/search', (req, res, next) => {
-        Recipe.find({name:{$regex: req.query.name}})
-        .then(response=>{
-          res.json(response)
-        })
+router.delete("/recipes/:recipeId", (req, res, next) => {
+  const { recipeId } = req.params;
 
-        .catch((error) => res.json(error));
+  if (!mongoose.Types.ObjectId.isValid(recipeId)) {
+    res.status(400).json({ message: "Specified id is not valid" });
+    return;
+  }
+
+  Recipe.findByIdAndRemove(recipeId)
+    .then(() =>
+      res.json({
+        message: `Recipe with ${recipeId} is removed successfully.`,
+      })
+    )
+    .catch((error) => res.json(error));
+});
+
+router.get("/search", (req, res, next) => {
+  Recipe.find({ name: { $regex: req.query.name } })
+    .then((response) => {
+      res.json(response);
     })
 
     .catch((error) => res.json(error));
