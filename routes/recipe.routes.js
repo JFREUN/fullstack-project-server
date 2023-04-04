@@ -87,11 +87,14 @@ router.delete("/recipes/:recipeId", (req, res, next) => {
     .catch((error) => res.json(error));
 });
 
+
 router.get("/search", (req, res, next) => {
   Recipe.find({ name: { $regex: req.query.name } })
     .then((response) => {
       res.json(response);
     })
+    .catch((error) => res.json(error));
+});
 
 
 module.exports = router;
