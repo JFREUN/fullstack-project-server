@@ -18,7 +18,6 @@ router.get("/ingredients", (req, res, next) => {
       .then((response) => {
         res.json(response);
       })
-  
       .catch((error) => res.json(error));
   });
 
