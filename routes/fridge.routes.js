@@ -22,6 +22,6 @@ router.get("/ingredients", (req, res, next) => {
   });
    
 
-  
+
 
   module.exports = router;
