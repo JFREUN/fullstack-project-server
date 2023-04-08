@@ -13,7 +13,7 @@ router.get("/ingredients", (req, res, next) => {
       .catch((err) => res.json(err));
   });
 
-  router.get("/search", (req, res, next) => {
+  router.get("/ingredients/search", (req, res, next) => {
     Ingredient.find({ name: { $regex: req.query.name } })
       .then((response) => {
         res.json(response);
