@@ -13,7 +13,7 @@ router.get("/ingredients", (req, res, next) => {
       .catch((err) => res.json(err));
   });
 
-  router.get("/ingredients/search", (req, res, next) => {
+router.get("/ingredients/search", (req, res, next) => {
     Ingredient.find({ name: { $regex: req.query.name } })
       .then((response) => {
         res.json(response);
@@ -21,6 +21,18 @@ router.get("/ingredients", (req, res, next) => {
       .catch((error) => res.json(error));
   });
    
+  router.put("/ingredients/:ingredientId", (req, res, next) => {
+    const { ingredientId } = req.params;
+  
+    if (!mongoose.Types.ObjectId.isValid(ingredientId)) {
+      res.status(400).json({ message: "Specified id is not valid" });
+      return;
+    }
+  
+    Ingredient.findByIdAndUpdate(ingredientId, req.body, { new: true })
+      .then((updatedIngredient) => res.json(updatedIngredient))
+      .catch((error) => res.json(error));
+  });
 
 
 
