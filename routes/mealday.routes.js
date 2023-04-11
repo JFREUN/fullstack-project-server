@@ -15,7 +15,8 @@ router.post("/meals",(req, res, next)=>{
 })
 
 router.get("/meals", (req,res, next)=>{
-    MealDay.find()
+  const userId = req.payload._id;
+    MealDay.find({userId})
     .populate("breakfast lunch dinner")
     .then((allMeals) => res.json(allMeals))
     .catch((err)=> res.json(err));

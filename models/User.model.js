@@ -6,6 +6,7 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   name: { type: String, required: true },
   recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
+  meals: [{ type: Schema.Types.ObjectId, ref: "MealDay" }]
 });
 
 module.exports = model("User", userSchema);
