@@ -91,7 +91,9 @@ router.delete("/recipes/:recipeId", (req, res, next) => {
 
 
 router.get("/search", (req, res, next) => {
-  Recipe.find({ name: { $regex: req.query.name } })
+  const userId = req.payload._id;
+
+  Recipe.find({ name: { $regex: req.query.name }, userId: userId  })
     .then((response) => {
       res.json(response);
     })
